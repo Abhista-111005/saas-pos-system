@@ -23,22 +23,21 @@ public class securityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-
         return http
-                .sessionManagement(
-                        management -> management.sessionCreationPolicy(
-                                SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(
-                        Authorize -> Authorize.requestMatchers(
-                                        "/api/**").authenticated()
-                                .requestMatchers("/api/super-admin/**")
-                                .hasRole("ADMIN")
-                                .anyRequest().permitAll()
-                ).addFilterBefore(new JwtValidator(), BasicAuthenticationFilter.class
-                ).csrf(AbstractHttpConfigurer::disable)
-                .cors(
-                        cors -> cors.configurationSource(corsConfigurationSource())
-                ).build();
+                .sessionManagement(session ->
+                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/auth/**").permitAll()   // 🔥 allow login/signup
+                        .requestMatchers("/api/super-admin/**").hasRole("ADMIN")
+                        .requestMatchers("/api/**").authenticated()
+                        .anyRequest().permitAll()
+                )
+
+                .addFilterBefore(new JwtValidator(), BasicAuthenticationFilter.class)
+                .csrf(AbstractHttpConfigurer::disable)
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+                .build();
     }
 
     @Bean
