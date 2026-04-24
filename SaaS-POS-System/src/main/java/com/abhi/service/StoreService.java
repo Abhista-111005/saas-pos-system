@@ -1,5 +1,6 @@
 package com.abhi.service;
 
+import com.abhi.domain.StoreStatus;
 import com.abhi.exceptions.UserException;
 import com.abhi.model.Store;
 import com.abhi.model.User;
@@ -16,7 +17,9 @@ public interface StoreService {
     List<StoreDto> getAllStores();
     Store getStoreByAdmin() throws UserException;
     StoreDto updateStore(Long id, StoreDto storeDto) throws Exception;
-    StoreDto deleteStore(Long id);
+    void deleteStore(Long id) throws UserException;
     StoreDto getStoreEmployees() throws UserException;
+
+    StoreDto moderateStore(Long id, StoreStatus status) throws Exception;
 
 }

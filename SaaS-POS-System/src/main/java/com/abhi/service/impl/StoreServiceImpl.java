@@ -1,5 +1,6 @@
 package com.abhi.service.impl;
 
+import com.abhi.domain.StoreStatus;
 import com.abhi.exceptions.UserException;
 import com.abhi.mapper.StoreMapper;
 import com.abhi.model.Store;
@@ -49,7 +50,7 @@ public class StoreServiceImpl implements StoreService {
 
         User admin = userService.getCurrentUser();
 
-        return storeRepository.findByStoreAdminId(Long.valueOf(admin.getId()));
+        return storeRepository.findByStoreAdminId(admin.getId());
     }
 
     @Override
@@ -57,7 +58,7 @@ public class StoreServiceImpl implements StoreService {
 
         User currentUser = userService.getCurrentUser();
 
-        Store exsisting = storeRepository.findByStoreAdminId(Long.valueOf(currentUser.getId()));
+        Store exsisting = storeRepository.findByStoreAdminId(currentUser.getId());
 
         if(exsisting == null) {
             throw new Exception("Store not found");
@@ -70,14 +71,25 @@ public class StoreServiceImpl implements StoreService {
         }
 
         if(storeDto.getContact() != null) {
-            StoreContact contact = StoreContact.builder().build();
+            StoreContact contact = StoreContact.builder()
+                    .address(storeDto.getContact().getAddress())
+                    .phone(storeDto.getContact().getPhone())
+                    .email(storeDto.getContact().getEmail())
+                    .build();
+            exsisting.setContact(contact);
         }
-        return null;
+        Store updatedStore = storeRepository.save(exsisting);
+        return StoreMapper.toDto(updatedStore);
     }
 
     @Override
-    public StoreDto deleteStore(Long id) {
-        return null;
+    public void deleteStore(Long id) throws UserException {
+
+        Store store = getStoreByAdmin();
+        storeRepository.delete(store);
+
+
+
     }
 
     @Override
@@ -91,5 +103,18 @@ public class StoreServiceImpl implements StoreService {
 
 
         return StoreMapper.toDto(currentUser.getStore());
+    }
+
+    @Override
+    public StoreDto moderateStore(Long id, StoreStatus status) throws Exception {
+
+        Store store = storeRepository.findById(id).orElseThrow(
+                () -> new Exception("Store not found....")
+        );
+        store.setStatus(status);
+        Store updatedStore = storeRepository.save(store);
+        return StoreMapper.toDto(updatedStore);
+
+
     }
 }
