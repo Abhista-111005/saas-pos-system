@@ -40,6 +40,8 @@ public class Jwtprovider {
                 .getBody();
         return String.valueOf(claims.get("email"));
 
+
+
     }
 
     private String populateAuthorities(Collection<? extends GrantedAuthority> authorities) {
