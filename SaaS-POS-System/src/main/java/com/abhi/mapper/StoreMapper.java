@@ -16,7 +16,7 @@ public class StoreMapper {
             storeDto.setStoreType(store.getStoreType());
             storeDto.setContact(store.getContact());
             storeDto.setCreatedAt(store.getCreatedAt());
-            storeDto.setUpdatesAt(store.getUpdatesAt());
+            storeDto.setUpdatesAt(store.getUpdatedAt());
             storeDto.setStatus(store.getStatus());
 
             return storeDto;
@@ -32,7 +32,7 @@ public class StoreMapper {
         store.setStoreType(storeDto.getStoreType());
         store.setContact(storeDto.getContact());
         store.setCreatedAt(storeDto.getCreatedAt());
-        store.setUpdatesAt(storeDto.getUpdatesAt());
+        store.setUpdatedAt(storeDto.getUpdatesAt());
         store.setStatus(storeDto.getStatus());
 
         return store;
