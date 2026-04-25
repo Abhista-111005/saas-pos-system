@@ -12,8 +12,8 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findByStoreId(Long storeId);
 
     @Query(
-            "SELECT p FROM Product p"+
-                    "WHERE p.store.id = :storeId AND ( " +
+            "SELECT p FROM Product p "+
+                    " WHERE p.store.id = :storeId AND ( " +
                     "LOWER(p.name) LIKE LOWER(CONCAT('%', :query, '%')) " +
                     "OR LOWER(p.brand) LIKE LOWER(CONCAT('%', :query, '%')) "+
                     "OR LOWER(p.sku) LIKE LOWER(CONCAT('%', :query, '%')) "+

@@ -1,5 +1,6 @@
 package com.abhi.mapper;
 
+import com.abhi.model.Category;
 import com.abhi.model.Product;
 import com.abhi.model.Store;
 import com.abhi.payload.dto.ProductDto;
@@ -16,6 +17,7 @@ public class ProductMapper {
                 .mrp(product.getMrp())
                 .sellingPrice(product.getSellingPrice())
                 .brand(product.getBrand())
+                .category(CategoryMapper.toDto(product.getCategory()))
                 .storeId(product.getStore() !=null ?product.getStore().getId():null)
         //        .categoryId(product.getCategory().getId())
                 .image(product.getImage())
@@ -25,9 +27,13 @@ public class ProductMapper {
 
 
     }
-    public static  Product toEntity(ProductDto productDto, Store store) {
+    public static  Product toEntity(ProductDto productDto,
+                                    Store store,
+                                    Category category) {
         return Product.builder()
                 .name(productDto.getName())
+                .store(store)
+                .category(category)
                 .sku(productDto.getSku())
                 .description(productDto.getDescription())
                 .mrp(productDto.getMrp())
