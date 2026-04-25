@@ -1,10 +1,12 @@
 package com.abhi.service.impl;
 
 import com.abhi.mapper.ProductMapper;
+import com.abhi.model.Category;
 import com.abhi.model.Product;
 import com.abhi.model.Store;
 import com.abhi.model.User;
 import com.abhi.payload.dto.ProductDto;
+import com.abhi.repository.CategoryRepository;
 import com.abhi.repository.ProductRepository;
 import com.abhi.repository.StoreRepository;
 import com.abhi.service.ProductService;
@@ -21,6 +23,7 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
     private final StoreRepository storeRepository;
+        private final CategoryRepository categoryRepository;
 
     @Override
     public ProductDto createProduct(ProductDto productDto, User user) throws Exception {
@@ -30,7 +33,11 @@ public class ProductServiceImpl implements ProductService {
                 () -> new Exception("Store not found")
         );
 
-        Product product = ProductMapper.toEntity(productDto, store);
+        Category category = categoryRepository.findById(productDto.getCategoryId()).orElseThrow(
+                () -> new Exception("Category not found")
+        );
+
+        Product product = ProductMapper.toEntity(productDto, store , category);
         Product saveProduct = productRepository.save(product);
         return ProductMapper.toDto(saveProduct);
     }
@@ -49,6 +56,15 @@ public class ProductServiceImpl implements ProductService {
         product.setSellingPrice(productDto.getSellingPrice());
         product.setBrand(productDto.getBrand());
         product.setUpdatedAt(LocalDateTime.now());
+
+        if(productDto.getCategoryId() != null) {
+            Category category = categoryRepository.findById(productDto.getCategoryId()).orElseThrow(
+                    () -> new Exception("Category not found")
+            );
+
+            product.setCategory(category);
+
+        }
 
         Product savedProduct = productRepository.save(product);
         return ProductMapper.toDto(savedProduct);
