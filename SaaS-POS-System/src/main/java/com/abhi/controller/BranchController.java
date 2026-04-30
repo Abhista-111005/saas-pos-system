@@ -3,6 +3,7 @@ package com.abhi.controller;
 import com.abhi.exceptions.UserException;
 import com.abhi.model.Branch;
 import com.abhi.payload.dto.BranchDto;
+import com.abhi.payload.response.ApiResponse;
 import com.abhi.service.BranchService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -52,10 +53,17 @@ public class BranchController {
         return ResponseEntity.ok(createdBranch);
     }
 
-    
+    @DeleteMapping("/store/{storeId}")
+    public ResponseEntity<ApiResponse> deleteBranchById(@PathVariable Long id)
+            throws UserException {
 
+         branchService.deleteBranch(id);
+         ApiResponse apiResponse = new ApiResponse();
 
+         apiResponse.setMessage("Branch deleted successfully");
 
-    
+         return ResponseEntity.ok(apiResponse);
+
+    }
 
 }
