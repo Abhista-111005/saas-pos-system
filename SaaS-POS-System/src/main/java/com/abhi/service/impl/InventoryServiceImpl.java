@@ -20,7 +20,6 @@ import java.util.List;
 public class InventoryServiceImpl implements InventoryService {
 
     private final InventoryRepository inventoryRepository;
-
     private final BranchRepository branchRepository;
     private final ProductRepository productRepository;
 
@@ -45,7 +44,8 @@ public class InventoryServiceImpl implements InventoryService {
     @Override
     public InventoryDto updateInventory(Long id,InventoryDto inventoryDto) {
 
-        Inventory inventory = inventoryRepository.findById(id).orElseThrow(
+        Inventory inventory = inventoryRepository.findById(id)
+                .orElseThrow(
                 () -> new RuntimeException("Inventory not found...")
         );
 
@@ -58,7 +58,8 @@ public class InventoryServiceImpl implements InventoryService {
     @Override
     public void deleteInventory(Long id) {
 
-        Inventory inventory = inventoryRepository.findById(id).orElseThrow(
+        Inventory inventory = inventoryRepository.findById(id)
+                .orElseThrow(
                 () -> new RuntimeException("Inventory not found...")
         );
         inventoryRepository.delete(inventory);
@@ -75,7 +76,8 @@ public class InventoryServiceImpl implements InventoryService {
     @Override
     public InventoryDto getInventoryById(Long id) {
 
-        Inventory inventory = inventoryRepository.findById(id).orElseThrow(
+        Inventory inventory = inventoryRepository.findById(id)
+                .orElseThrow(
                 () -> new RuntimeException("Inventory not found...")
         );
 
