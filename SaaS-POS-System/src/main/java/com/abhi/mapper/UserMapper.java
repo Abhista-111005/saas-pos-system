@@ -3,6 +3,8 @@ package com.abhi.mapper;
 import com.abhi.model.User;
 import com.abhi.payload.dto.UserDto;
 
+import java.time.LocalDateTime;
+
 public class UserMapper {
 
 
@@ -18,4 +20,20 @@ public class UserMapper {
         userDto.setPhone(savedUser.getPhone());
         return userDto;
     }
+
+    public static User toEntity(UserDto userDto) {
+
+        User createdUser = new User();
+        createdUser.setEmail(userDto.getEmail());
+        createdUser.setFullName(userDto.getFullName());
+        createdUser.setRole(userDto.getRole());
+        createdUser.setCreatedAt(LocalDateTime.now());
+        createdUser.setUpdatedAt(userDto.getUpdatedAt());
+        createdUser.setLastLogin(userDto.getLastLogin());
+        createdUser.setPhone(userDto.getPhone());
+        createdUser.setPassword(userDto.getPassword());
+
+        return createdUser;
+    }
+
 }

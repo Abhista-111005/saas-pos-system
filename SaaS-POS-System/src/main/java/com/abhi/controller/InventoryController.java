@@ -20,7 +20,9 @@ public class InventoryController {
     public ResponseEntity<InventoryDto> create(
             @RequestBody InventoryDto inventoryDto
     )throws Exception {
+
         return ResponseEntity.ok(inventoryService.createInventory(inventoryDto));
+
     }
 
     @PutMapping("/{id}")

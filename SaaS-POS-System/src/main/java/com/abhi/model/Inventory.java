@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 public class Inventory {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @ManyToOne
