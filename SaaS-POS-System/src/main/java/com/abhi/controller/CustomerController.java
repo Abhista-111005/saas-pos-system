@@ -44,6 +44,4 @@ public class CustomerController {
     ) throws Exception {
         return ResponseEntity.ok(customerService.searchCustomers(q));
     }
-
-
 }
