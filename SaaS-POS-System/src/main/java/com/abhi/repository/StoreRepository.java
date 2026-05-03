@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface StoreRepository extends JpaRepository<Store , Long> {
 
-    Store findByStoreAdminId(String Id);
+    Store findByStoreAdminId(Long Id);
 
 }
